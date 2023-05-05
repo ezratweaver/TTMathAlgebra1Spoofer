@@ -12,5 +12,3 @@ def generate_lesson_string(first_number, second_number,
             list[random_index:random_index+1] = ['0'] * 1
     string = ' | '.join(list)
     return string
-
-

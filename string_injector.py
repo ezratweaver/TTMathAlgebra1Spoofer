@@ -15,4 +15,3 @@ def inject_lesson(LNum, LScore, LTrial,
                     (LNum, LScore, LTrial, LUserAns, LCorrectAns, LViewedSolns))
     db_connection.commit()
     db_connection.close()
-

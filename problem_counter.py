@@ -14,8 +14,3 @@ def find_problem_count(lesson):
             continue
         counter += 1
     return counter
-
-
-
-
-
