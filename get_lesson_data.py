@@ -4,20 +4,24 @@ from get_average import get_average
 
 DATABASE_NAME = "algebra1dat"
 PUBLIC_FOLDER = "TT Algebra 1"
-TOTAL_LESSONS = 142
 
-def grab_lesson_data():
+def grab_lesson_data(test=False):
     tt_math_dir = path.join(environ["PUBLIC"], "Documents", PUBLIC_FOLDER)
     chdir(tt_math_dir)
     database_connection = connect(DATABASE_NAME)
     cursor = database_connection.cursor()
-    cursor.execute('SELECT LNum, LScore FROM userLessonGrade_2 ORDER BY LNum ASC')
-    lesson_and_score = cursor.fetchall()
+
+    sql_execute = "SELECT LNum, LScore FROM userLessonGrade_2 ORDER BY LNum ASC"
+    if test:
+        sql_execute = "SELECT QNum, QScore FROM userQuizGrade_2 ORDER BY QNum ASC"
+
+    cursor.execute(sql_execute)
+    number_and_score = cursor.fetchall()
     cursor.close()
     database_connection.close()
-    return lesson_and_score
+    return number_and_score
 
-def sift_lesson_data(input_data):
+def sift_lesson_data(input_data, max_lessons):
     grade_to_percentage = {
             "A+": 97,
             "A": 93,
@@ -59,10 +63,10 @@ def sift_lesson_data(input_data):
             grade = grade
             break
 
-    if total_lessons > TOTAL_LESSONS:
-        total_lessons = TOTAL_LESSONS
+    if total_lessons > max_lessons:
+        total_lessons = max_lessons
 
-    progress = f"{total_lessons}/{TOTAL_LESSONS}"
-    progress_percentage = f"{get_average(total_lessons, TOTAL_LESSONS)}%"
+    progress = f"{total_lessons}/{max_lessons}"
+    progress_percentage = f"{get_average(total_lessons, max_lessons)}%"
     grade_percentage = f"{get_average(total_percentage, total_lessons)}%"
     return progress, progress_percentage, grade_percentage, grade

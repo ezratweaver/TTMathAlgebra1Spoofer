@@ -1,5 +1,5 @@
 from sqlite3 import connect
-db_connection = connect('problemdatabase.db')
+db_connection = connect('problemset.db')
 
 def find_problem_count(lesson):
     cursor = db_connection.cursor()
